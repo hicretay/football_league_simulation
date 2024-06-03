@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Football League Simulation</title>
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            background-color: green;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Football League Simulation</h1>
+        <button id="simulate">Simulate Matches</button>
+        <button id="reset">Reset Matches</button>
+        <h2>Teams</h2>
+        <table style="background-color:#ffffff;border-radius:20px;padding:10px;">
+            <thead>
+                <tr>
+                    <th>Team</th>
+                    <th>Points</th>
+                    <th>Goals For</th>
+                    <th>Goals Against</th>
+                    <th>Goal Difference</th>
+                </tr>
+            </thead>
+            <tbody id="teams">
+                <% @teams.each do |team| %>
+                    <tr>
+                        <td><%= team[:name] %></td>
+                        <td><%= team[:points] %></td>
+                        <td><%= team[:goals_for] %></td>
+                        <td><%= team[:goals_against] %></td>
+                        <td><%= team[:goal_difference] %></td>
+                    </tr>
+                <% end %>
+            </tbody>
+        </table>
+        <h2>Championship Percentages</h2>
+        <table id="percentages" style="list-style:none;background-color:#fff;padding:10px;border-radius:20px;display:none;width:250px;margin:0 auto;">
+        </table>
+    </div>
+    <script>
+        $(document).ready(function() {
+            $('#simulate').click(function() {
+                $.post('/simulate', function(data) {
+                    var standings = JSON.parse(data);
+                    var teamsHtml = '';
+                    for (var i = 0; i < standings.length; i++) {
+                        var team = standings[i];
+                        teamsHtml += '<tr><td>' + team.name + '</td><td>' + team.points + '</td><td>' + team.goals_for + '</td><td>' + team.goals_against + '</td><td>' + team.goal_difference + '</td></tr>';
+                    }
+                    $('#teams').html(teamsHtml);
+                    var matchesHtml = '';
+                    <% @matches.each do |match| %>
+                        matchesHtml += '<li><%= match[:home_team][:name] %> vs <%= match[:away_team][:name] %>: <%= match[:home_team_score] %> - <%= match[:away_team_score] %></li>';
+                    <% end %>
+                    $('#matches').html(matchesHtml);
+                });
+            });
+            $('#reset').click(function() {
+                $.post('/reset', function() {
+                    location.reload();
+                });
+            });
+            $('#simulate').click(function() {
+                $('#percentages').show();
+                $.post('/championship_percentages', function(data) {
+                    var percentages = JSON.parse(data);
+                    var percentagesHtml = '';
+                    for (var team in percentages) {
+                        if (percentages.hasOwnProperty(team)) {
+                            percentagesHtml += '<tr><td>' + team + '</td><td> ' + percentages[team] + '%</td></tr>';
+                        }
+                    }
+                    $('#percentages').html(percentagesHtml);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
