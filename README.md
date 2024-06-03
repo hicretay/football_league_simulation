@@ -2,6 +2,9 @@
 
 Bu proje, dört takımın bulunduğu bir futbol ligi simülasyonudur. Takımlar arasındaki maçlar simüle edilir ve her takımın sezon sonundaki şampiyon olma yüzdeleri hesaplanır.
 
+## Proje 
+https://football-league-simulation.fly.dev/
+
 ## Özellikler
 
 - Dört takım arasındaki maçların simülasyonu
@@ -21,3 +24,4 @@ Bu proje, dört takımın bulunduğu bir futbol ligi simülasyonudur. Takımlar 
 ```bash
 git clone https://github.com/hicretay/football-league-simulation.git
 cd football-league-simulation
+
