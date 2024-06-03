@@ -19,5 +19,5 @@ Bu proje, dört takımın bulunduğu bir futbol ligi simülasyonudur. Takımlar 
 1. Bu projeyi klonlayın:
 
 ```bash
-git clone https://github.com/kullaniciadi/football-league-simulation.git
+git clone https://github.com/hicretay/football-league-simulation.git
 cd football-league-simulation
